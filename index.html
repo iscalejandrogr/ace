@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title> Ejemplo Acelerometro</title>
-<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
-<script type="text/javascript">
-document.addEventListener("deviceready", onDeviceReady, false);
+  <head>
+    <title>Acceleration Example</title>
 
-function onDeviceReady(){
-  navigator.accelerometer.watchAcceleration(onSuccess, onError, {frequency:3000});
-}
+    <script type="text/javascript" src="cordova-2.0.0.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    <script src="phonegap.js"></script>
+    var watchID = null;
 
-function onSuccess(acelerar){
-  var elemento=document.getElementById("acelerometro");
-  elemento.innerHTML="Acelaración en X:"+acelerar.x+ "<br>Acelaración en Y:"+acelerar.y+
-  "<br>Acelaración en Z:"+acelerar.z+"<br> Timestamp: "+acelerar.timestamp;
-}
-function onError(){
-  alert("Error");
-}
-</script>
-</head>
-<body>
-<div id="acelerometro">Datos del acelerometro...</div>
-</body>
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    function onDeviceReady() {
+        //var options = { frequency: 3000 };
+
+        watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, {frequency:3000});
+    }
+
+
+    function stopWatch() {
+        if (watchID) {
+            navigator.accelerometer.clearWatch(watchID);
+            watchID = null;
+        }
+    }
+
+    function onSuccess(acceleration) {
+        var element = document.getElementById('accelerometer');
+        element.innerHTML = 'Acceleration X: ' + acceleration.x         + '<br />' +
+                            'Acceleration Y: ' + acceleration.y         + '<br />' +
+                            'Acceleration Z: ' + acceleration.z         + '<br />' +
+                            'Timestamp: '      + acceleration.timestamp + '<br />';
+    }
+
+
+    function onError() {
+        alert('onError!');
+    }
+
+    </script>
+  </head>
+  <body>
+    <div id="accelerometer">Waiting for accelerometer...</div>
+  </body>
 </html>
