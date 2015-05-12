@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Acceleration Example</title>
+    <title>Ejemplo de Acceleration</title>
 
-    <script type="text/javascript" src="cordova-2.0.0.js"></script>
+    <!--script type="text/javascript" charset="utf-8" src="phonegap-1.0.0.js"></script-->
+    <script type="text/javascript" charset="utf-8" src="js/cordova-2.3.0.js"></script>
     <script type="text/javascript" charset="utf-8">
-    <script src="phonegap.js"></script>
-    <script type="text/javascript">
+
+    // El identificador del visor de aceleración a detener
     var watchID = null;
 
+    // Espera a que PhoneGap se inicie
+    //
     document.addEventListener("deviceready", onDeviceReady, false);
 
+    // PhoneGap esta listo
+    //
     function onDeviceReady() {
-        //var options = { frequency: 3000 };
-
-        watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, {frequency:3000});
+        startWatch();
     }
 
+    // Empieza a observar la aceleración
+    //
+    function startWatch() {
 
+        // Actualiza cada 3 segundos
+        var options = { frequency: 3000 };
+
+        watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+    }
+
+    // Deja de observar la aceleración
+    //
     function stopWatch() {
         if (watchID) {
             navigator.accelerometer.clearWatch(watchID);
@@ -25,15 +39,18 @@
         }
     }
 
+    // onSuccess: Obtiene el resultado de la aceleración actual
+    //
     function onSuccess(acceleration) {
         var element = document.getElementById('accelerometer');
-        element.innerHTML = 'Acceleration X: ' + acceleration.x         + '<br />' +
-                            'Acceleration Y: ' + acceleration.y         + '<br />' +
-                            'Acceleration Z: ' + acceleration.z         + '<br />' +
+        element.innerHTML = 'Aceleración X: ' + acceleration.x + '<br />' +
+                            'Aceleración Y: ' + acceleration.y + '<br />' +
+                            'Aceleración Z: ' + acceleration.z + '<br />' + 
                             'Timestamp: '      + acceleration.timestamp + '<br />';
     }
 
-
+    // onError: Fallo al obtener la aceleración
+    //
     function onError() {
         alert('onError!');
     }
@@ -41,6 +58,7 @@
     </script>
   </head>
   <body>
-    <div id="accelerometer">Waiting for accelerometer...</div>
+    <div id="accelerometer">Esperando al acelerómetro...</div>
+    <button onclick="stopWatch();">Detener el visor</button>
   </body>
-</html>
+</html> 
