@@ -77,6 +77,9 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
+    <feature name="Accelerometer">
+      <param name="android-package" value="org.apache.cordova.AccelListener" />
+    </feature>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
